@@ -25,7 +25,6 @@ const GameTime = styled.div`
 `;
 
 const GameStartPage = ({ games, match }) => {
-  console.log(match);
   return (
     <>
       Start

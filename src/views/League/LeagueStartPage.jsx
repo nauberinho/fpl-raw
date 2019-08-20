@@ -4,15 +4,8 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import _ from "lodash";
 
-// Shared components
-import Drawer from "../../components/Drawer";
-
 // Actions
 import { getLeague } from "../../actions/leagues";
-
-const Container = styled.div`
-  display: flex;
-`;
 
 const DrawerContainer = styled.div`
   position: fixed;
@@ -57,14 +50,13 @@ const Button = styled.button`
   flex: 1;
   cursor: pointer;
 `;
-const LeagueStartPage = ({ location, leagues, games, getLeague, history }) => {
-  console.log(history, "Hej");
+const LeagueStartPage = ({ games, getLeague, history }) => {
   const [leagueReference, setLeagueReference] = useState("");
   const indexOfPreviousEvent = _.findIndex(
     _.get(games, "staticData.data.events", []),
     ["is_current", true]
   );
-  console.log(indexOfPreviousEvent);
+
   return (
     <>
       <Title>Insert your leagues code or url to get started</Title>

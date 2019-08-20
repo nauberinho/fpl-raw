@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   withRouter,
   BrowserRouter as Router,
@@ -9,9 +9,6 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import _ from "lodash";
 
-// Shared components
-import Drawer from "../../components/Drawer";
-
 // Local components
 import LeagueStartPage from "./LeagueStartPage";
 import LeagueOverview from "./LeagueOverview";
@@ -20,21 +17,8 @@ const Container = styled.div`
   display: flex;
 `;
 
-const DrawerContainer = styled.div`
-  position: fixed;
-  height: 100vh;
-  width: 200px;
-`;
-
 const MenuBar = styled.div`
   display: flex;
-`;
-
-const DrawerButton = styled.div`
-  flex: 1;
-  text-align: right;
-  cursor: pointer;
-  padding: 2rem 0;
 `;
 
 const Title = styled.div`
@@ -51,35 +35,7 @@ const Content = styled.div`
   text-align: center;
 `;
 
-// Results
-const Results = styled.div`
-  border: 1px solid gray;
-`;
-
-const Player = styled.div`
-  padding: 1rem 1rem 1rem 0;
-  color: gray;
-  font-weight: 500;
-  display: flex;
-`;
-
-const PlayerInfo = styled.div`
-  flex: 2;
-`;
-
-const PlayerName = styled.div`
-  color: black;
-`;
-const PlayerTeamName = styled.div`
-  font-size: 0.8rem;
-  color: gray;
-`;
-
-const PlayerScore = styled.div`
-  flex: 1;
-`;
-
-const League = ({ location, leagues }) => {
+const League = ({ leagues }) => {
   const hasLeague = !_.isEmpty(leagues.league);
   return (
     <Router>

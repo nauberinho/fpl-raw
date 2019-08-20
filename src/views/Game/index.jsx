@@ -34,6 +34,7 @@ const Content = styled.div`
 
 const Game = ({ game }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(game ? true : false);
+
   return (
     <Router>
       <Container>

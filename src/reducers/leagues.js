@@ -13,7 +13,6 @@ const leaguesReducer = (state = initialState, action) => {
         members: action.payload.members
       };
     case "UPDATE_LEAGUE_SUCCESS":
-      console.log(action.payload.league, state.league, "update league success");
       return {
         league: action.payload.league,
         previousLeague: state.league,

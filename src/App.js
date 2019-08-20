@@ -8,7 +8,6 @@ import { mediaQueries } from "./shared/theme";
 
 // Actions
 import { getGames } from "./actions/games";
-import { getLeague } from "./actions/leagues";
 
 // Views
 import League from "./views/League";
@@ -94,6 +93,7 @@ const App = props => {
   useEffect(() => {
     props.getGames();
   }, []);
+
   return (
     <AppContainer>
       <Router>

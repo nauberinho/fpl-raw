@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
@@ -37,22 +37,7 @@ const LeagueLink = styled(Link)`
   cursor; pointer;
 `;
 
-// Results
-const Results = styled.div`
-  border: 1px solid gray;
-`;
-
-const CategoryRow = styled.div`
-  display: flex;
-`;
-
-const PlayerCategory = styled.div`
-  flex: 2;
-`;
-const LiveCategory = styled.div`
-  flex: 1;
-`;
-
+// Animations
 const animationIncreased = keyframes`
   from {
     background: red;
@@ -139,6 +124,7 @@ const LeagueOverview = ({
 }) => {
   const pathname = location.pathname;
   const leagueId = match.params.id;
+
   useEffect(() => {
     if (games.staticData.data) {
       clearInterval(getLeagueInterval);
@@ -147,23 +133,15 @@ const LeagueOverview = ({
         _.get(games, "staticData.data.events", []),
         ["is_current", true]
       );
-      console.log(indexOfPreviousEvent, "indexOfPreviousEvent");
 
       leagueId && getLeague(leagueId, history, indexOfPreviousEvent);
       var getLeagueInterval = setInterval(function() {
         leagueId && getGames();
-        console.log("Retrieving league");
-      }, 30000); // Set to poll league every 30 seconds
+      }, 30000); // Set to poll league every 30 second
     }
   }, [games.staticData]);
 
   const { staticData } = games;
-  // const results = _.get(leagues, "league.standings.results", []).sort(
-  //   (a, b) => a.total > b.total
-  // );
-  const results = _.sortBy(_.get(leagues, "league.standings.results", []), [
-    m => m.total
-  ]).reverse();
   const previousLeagueResults = _.sortBy(
     _.get(leagues, "previousLeague.standings.results", []),
     [m => m.total]
@@ -200,19 +178,13 @@ const LeagueOverview = ({
               const member = leagues.members.filter(
                 p => p.overall.id === player.entry
               )[0];
-              const { picks, entry_history, overall } = member;
+              const { picks, overall } = member;
               for (var pick in picks) {
                 if (
-                  // games.activeTeams.includes(
-                  //   staticData.data.elements[picks[pick].element].team
-                  // ) &&
-                  staticData.data.elements[picks[pick].element].second_name ===
-                  "Pulisic"
+                  games.activeTeams.includes(
+                    staticData.data.elements[picks[pick].element].team
+                  )
                 ) {
-                  console.log(
-                    staticData.data.elements[picks[pick].element].team,
-                    ", team included"
-                  );
                   numberOfActivePlayers++;
                 }
               }
@@ -228,24 +200,13 @@ const LeagueOverview = ({
                 key >
                 _.findIndex(previousLeagueResults, ["entry", player.entry]);
 
-              let totalEventPoints = 0;
-              for (var i in picks) {
-                // console.log(
-                //   staticData.data.elements.filter(
-                //     pl => pl.id === picks[i].element
-                //   )[0].web_name,
-                //   "spelarobjeckt:",
-                //   staticData.data.elements.filter(
-                //     pl => pl.id === picks[i].element
-                //   )[0]
-                // );
-                totalEventPoints += staticData.data.elements.filter(
-                  pl => pl.id === picks[i].element
-                )[0].event_points;
-              }
-              console.log(player.name, totalEventPoints);
-
-              console.log(player, key, "=player");
+              // In progress
+              // let totalEventPoints = 0;
+              // for (var i in picks) {
+              //   totalEventPoints += staticData.data.elements.filter(
+              //     pl => pl.id === picks[i].element
+              //   )[0].event_points;
+              // }
 
               return (
                 <ExpansionPanel>
@@ -291,6 +252,8 @@ const LeagueOverview = ({
           )}
         </>
       )}
+
+      {/* TO DO: Make below paths parts of react router */}
       {pathname.includes("charts") && <>Charts</>}
       {pathname.includes("predictions") && (
         <>Available further into the season</>
